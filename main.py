@@ -17,10 +17,12 @@ def get_latest_post():
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()
         page.goto(TRUMP_URL)
-        time.sleep(2)
+        time.sleep(5)
 
-        posts = page.locator("p.break-words")
-        print(posts.all_inner_texts())
+        posts = page.locator("div.status.cursor-pointer.focusable p.text-base")
+        for i in range(posts.count()):
+            print(posts.nth(i).inner_text())
+        # print(posts.all_inner_texts())
         html = page.content()
         browser.close()
         return extract_from_html(html)
