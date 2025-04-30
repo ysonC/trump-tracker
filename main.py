@@ -17,11 +17,15 @@ def get_latest_post():
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()
         page.goto(TRUMP_URL)
-        time.sleep(5)
 
-        posts = page.locator("div.status.cursor-pointer.focusable p.text-base")
-        for i in range(posts.count()):
-            print(posts.nth(i).inner_text())
+        time.sleep(2)
+        for _ in range(10):
+            page.wait_for_timeout(2000)
+            posts = page.locator("div.status.cursor-pointer.focusable p.text-base")
+            for i in range(posts.count()):
+                print(posts.nth(i).inner_text())
+            page.mouse.wheel(0, 1000)
+
         # print(posts.all_inner_texts())
         html = page.content()
         browser.close()
