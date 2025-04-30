@@ -1,7 +1,7 @@
 # To Do List
 
-## Build scrapper for Twitter and Truth Media
+## Build scrapper for Twitter and Truth Social
 
-- [ ] Scrapper for twitter
-- [ ] Build database to store data
 - [ ] Scrapper for Truth
+- [ ] Build database to store data
+- [ ] Scrapper for twitter
