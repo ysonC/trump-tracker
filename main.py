@@ -1,4 +1,4 @@
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import TimeoutError, sync_playwright
 
 TRUMP_URL = "https://truthsocial.com/@realDonaldTrump"
 
@@ -11,11 +11,18 @@ def get_posts(number):
         page.goto(TRUMP_URL)
 
         page.wait_for_timeout(2000)
+        page.set_default_timeout(100)
         for _ in range(number):
-            page.wait_for_timeout(2000)
-            posts = page.locator("div.status__content-wrapper p.text-base")
-            for i in range(posts.count()):
-                scrapped_post.append(posts.nth(i).inner_text())
+            containers = page.locator("div.status__content-wrapper")
+
+            for i in range(containers.count()):
+                container = containers.nth(i)
+                try:
+                    print(container.locator("p.text-base").first.inner_text())
+                except TimeoutError:
+                    print("no post found...scrolling")
+                    continue
+                # scrapped_post.append(container.inner_text())
             page.mouse.wheel(0, 1000)
 
         browser.close()
